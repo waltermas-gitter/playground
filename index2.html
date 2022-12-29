@@ -4,9 +4,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>placeholder</title>
+    <ol id="xhr"></ol>
 </head>
 <body>
-    
+    <script>
+        (() => {
+  const xhr = new XMLHttpRequest(),
+    $xhr = document.getElementById("xhr"),
+    $fragment = document.createDocumentFragment();
+  xhr.addEventListener("readystatechange", e => {
+    if (xhr.readyState !== 4) return;
+    console.log(xhr)
+    if (xhr.status >= 200 && xhr.status < 300) {
+      console.log("exito");
+      let json = JSON.parse(xhr.responseText);
+      console.log(json);
+      json.forEach(el => {
+        const $li = document.createElement("li");
+        $li.innerHTML = `${el.name} -- ${el.email} -- ${el.phone}`;
+        $fragment.appendChild($li);
+      });
+      $xhr.appendChild($fragment)
+    } else {
+      console.log("error");
+      let message = xhr.statusText || "Ocurrio un error";
+      $xhr.innerHTML = `Error ${xhr.status}: ${message}`
+
+    }
+  });
+  xhr.open("GET", "https://jsonplaceholder.typicode.com/users");
+  // xhr.open("GET", "assets/users.json"); abriendo archivo local
+  xhr.send();
+})();
+
+    </script>
 </body>
 </html>
