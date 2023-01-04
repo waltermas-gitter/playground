@@ -40,3 +40,9 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
+      - name: paso secretos
+        env:
+          CI: true
+          APIKEY: ${{ secrets.APIKEY }}
+          SPREADSHEET: ${{ secrets.SPREADSHEET }}
+
