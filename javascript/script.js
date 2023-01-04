@@ -28,3 +28,5 @@ function guardar() {
 }
 
 cargarls()
+console.log("**************")
+console.log(process.env.APIKEY)
