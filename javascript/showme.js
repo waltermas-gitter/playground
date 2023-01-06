@@ -1,2 +1,2 @@
 console.log("**************")
-console.log(process.env.spreadsheet)
+console.log(process.env.APIKEY)
