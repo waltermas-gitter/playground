@@ -80,42 +80,20 @@ fetch(url, { "Cache-Control": "no-cache" })
 //submit
 $botonSubmit = document.getElementById("boton-submit");
 $botonSubmit.addEventListener("click", () => {
-  fetch("http://www.google.com/s2/favicons?domain=http://www.stackoverflow.com")
-    .then((res) => {
-      const faviconurl = res.url;
-      const nombre = document.getElementById("nombre").value;
-      const link = document.getElementById("link").value;
-      const desc = document.getElementById("descripcion").value;
-      const folder = document.getElementById("folder").value;
+  const nombre = document.getElementById("nombre").value;
+  const link = document.getElementById("link").value;
+  const desc = document.getElementById("descripcion").value;
+  const folder = document.getElementById("folder").value;
+  const faviconurl = iconourl("prueba");
 
-      const bookmark = {
-        name: nombre,
-        link: link,
-        desc: desc,
-        folder: folder,
-        favicon: faviconurl,
-      };
-      console.log(bookmark);
-
-      
-      fetch("https://api.sheetson.com/v2/sheets/bookmarker", {
-        method: "POST",
-        headers: {
-          Authorization:
-            "Bearer d2av5kqdghJ51T8lU_6DoaIaTvQo3ze9go77FSL-WhmR-R-Om-g0eSqZ9dQ",
-          "X-Spreadsheet-Id": "1q5PbYgCM4EUTxKq1RrUv-ftGNAFoDLmaiGKV6IJZacw",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bookmark),
-      })
-        .then((r) => r.json())
-        .then((result) => {
-          location.reload();
-        });
-    })
-    .catch((err) => {
-      console.log("error"); //url
-    });
+  const bookmark = {
+    name: nombre,
+    link: link,
+    desc: desc,
+    folder: folder,
+    favicon: faviconurl,
+  };
+  console.log(bookmark);
 
   /*   fetch("https://api.sheetson.com/v2/sheets/bookmarker", {
     method: "POST",
@@ -132,3 +110,13 @@ $botonSubmit.addEventListener("click", () => {
       location.reload();
     }); */
 });
+
+function iconourl(urlgoogle) {
+  fetch("http://www.google.com/s2/favicons?domain=http://www.stackoverflow.com")
+    .then((res) => {
+      return res.url;
+    })
+    .catch((err) => {
+      return "error";
+    });
+}
