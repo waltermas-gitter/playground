@@ -80,7 +80,7 @@ fetch(url, { "Cache-Control": "no-cache" })
 //submit
 $botonSubmit = document.getElementById("boton-submit");
 $botonSubmit.addEventListener("click", () => {
-  fetch("http://www.google.com/s2/favicons?domain=http://www.stackoverflow.com")
+  fetch("https://www.google.com/s2/favicons?domain=http://www.stackoverflow.com")
     .then((res) => {
       const faviconurl = res.url;
       const nombre = document.getElementById("nombre").value;
@@ -97,7 +97,7 @@ $botonSubmit.addEventListener("click", () => {
       };
       console.log(bookmark);
 
-      
+
       fetch("https://api.sheetson.com/v2/sheets/bookmarker", {
         method: "POST",
         headers: {
