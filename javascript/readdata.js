@@ -80,7 +80,13 @@ fetch(url, { "Cache-Control": "no-cache" })
 //submit
 $botonSubmit = document.getElementById("boton-submit");
 $botonSubmit.addEventListener("click", () => {
-  fetch("https://www.google.com/s2/favicons?domain=http://www.stackoverflow.com")
+  let headers = new Headers();
+  
+  headers.append("Access-Control-Allow-Origin", "*");
+  headers.append("Access-Control-Allow-Headers" ,"*");
+  headers.append("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT");
+
+  fetch("https://www.google.com/s2/favicons?domain=http://www.stackoverflow.com", {headers})
     .then((res) => {
       const faviconurl = res.url;
       const nombre = document.getElementById("nombre").value;
