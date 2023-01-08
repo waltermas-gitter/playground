@@ -102,7 +102,7 @@ $botonSubmit.addEventListener("click", () => {
         method: "POST",
         headers: {
           Authorization:
-            "Bearer d2av5kqdghJ51T8lU_6DoaIaTvQo3ze9go77FSL-WhmR-R-Om-g0eSqZ9dQ",
+            `Bearer ${APIKEY}`,
           "X-Spreadsheet-Id": "1q5PbYgCM4EUTxKq1RrUv-ftGNAFoDLmaiGKV6IJZacw",
           "Content-Type": "application/json",
         },
@@ -117,18 +117,5 @@ $botonSubmit.addEventListener("click", () => {
       console.log("error"); //url
     });
 
-  /*   fetch("https://api.sheetson.com/v2/sheets/bookmarker", {
-    method: "POST",
-    headers: {
-      Authorization:
-        "Bearer d2av5kqdghJ51T8lU_6DoaIaTvQo3ze9go77FSL-WhmR-R-Om-g0eSqZ9dQ",
-      "X-Spreadsheet-Id": "1q5PbYgCM4EUTxKq1RrUv-ftGNAFoDLmaiGKV6IJZacw",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(bookmark),
-  })
-    .then((r) => r.json())
-    .then((result) => {
-      location.reload();
-    }); */
+ 
 });
