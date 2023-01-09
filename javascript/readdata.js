@@ -56,7 +56,7 @@ fetch(url, { "Cache-Control": "no-cache" })
         if (el.folder == carp) {
           const $li = document.createElement("li");
           if (!el.favicon) {
-            el.favicon = "favicon.png"
+            el.favicon = "favicon.png";
           }
           $li.innerHTML = `      
       <div class="d-flex p-2 bd-highlight">
@@ -64,8 +64,8 @@ fetch(url, { "Cache-Control": "no-cache" })
       <img src="${el.favicon}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
       ${el.name}
         </a>
-      <button class="btn btn-sm btn-outline-secondary m-1" type="button">M</button>
-      <button class="btn btn-sm btn-outline-secondary m-1" type="button">D</button>
+      <button id="M${el.rowIndex}" class="btn btn-sm btn-outline-secondary m-1" type="button">M</button>
+      <button id="D${el.rowIndex}" class="btn btn-sm btn-outline-secondary m-1" type="button">D</button>
     </div>
       `;
           $fragmentf.appendChild($li);
@@ -82,8 +82,7 @@ fetch(url, { "Cache-Control": "no-cache" })
 
 //submit
 $botonSubmit = document.getElementById("boton-submit");
-$botonSubmit.addEventListener("click", () => 
-{
+$botonSubmit.addEventListener("click", () => {
   //https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://www.github.com
   const url = document.getElementById("link").value;
   const faviconurl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}`;
@@ -113,4 +112,34 @@ $botonSubmit.addEventListener("click", () =>
     .then((result) => {
       location.reload();
     });
+});
+
+// modificar - delete
+document.addEventListener("click", (e) => {
+  const botonid = e.target.id;
+  const botonrow = botonid.substring(1);
+  if (botonid.substring(0, 1) == "M") {
+  }
+  if (botonid.substring(0, 1) == "D") {
+    const resp = confirm("estas seguro?");
+    console.log(resp);
+    if (!resp) return;
+
+    fetch(`https://api.sheetson.com/v2/sheets/bookmarker/${botonrow}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${APIKEY}`,
+        "X-Spreadsheet-Id": "1q5PbYgCM4EUTxKq1RrUv-ftGNAFoDLmaiGKV6IJZacw",
+      },
+    })
+      .then((r) => r.json())
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally((e) => location.reload());
+  }
+  e.stopPropagation();
 });
