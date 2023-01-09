@@ -55,11 +55,13 @@ fetch(url, { "Cache-Control": "no-cache" })
       json.results.forEach((el) => {
         if (el.folder == carp) {
           const $li = document.createElement("li");
-
+          if (!el.favicon) {
+            el.favicon = "favicon.png"
+          }
           $li.innerHTML = `      
       <div class="d-flex p-2 bd-highlight">
       <a class="dropdown-item" href="${el.link}">
-      <img src="favicon.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+      <img src="${el.favicon}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
       ${el.name}
         </a>
       <button class="btn btn-sm btn-outline-secondary m-1" type="button">M</button>
@@ -75,53 +77,40 @@ fetch(url, { "Cache-Control": "no-cache" })
   .catch((err) => {
     alert("api no valida");
     localStorage.removeItem("apikey");
+    console.log(err);
   });
 
 //submit
 $botonSubmit = document.getElementById("boton-submit");
-$botonSubmit.addEventListener("click", () => {
-  let headers = new Headers();
-  headers.append("Access-Control-Allow-Credentials", true)
-  headers.append("Access-Control-Allow-Origin", "*");
-  headers.append("Access-Control-Allow-Headers" ,"*");
-  headers.append("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT");
+$botonSubmit.addEventListener("click", () => 
+{
+  //https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://www.github.com
+  const url = document.getElementById("link").value;
+  const faviconurl = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}`;
+  const nombre = document.getElementById("nombre").value;
+  const link = document.getElementById("link").value;
+  const desc = document.getElementById("descripcion").value;
+  const folder = document.getElementById("folder").value;
 
-  fetch("https://www.google.com/s2/favicons?domain=http://www.stackoverflow.com", {headers: headers})
-    .then((res) => {
-      const faviconurl = res.url;
-      const nombre = document.getElementById("nombre").value;
-      const link = document.getElementById("link").value;
-      const desc = document.getElementById("descripcion").value;
-      const folder = document.getElementById("folder").value;
+  const bookmark = {
+    name: nombre,
+    link: link,
+    desc: desc,
+    folder: folder,
+    favicon: faviconurl,
+  };
 
-      const bookmark = {
-        name: nombre,
-        link: link,
-        desc: desc,
-        folder: folder,
-        favicon: faviconurl,
-      };
-      console.log(bookmark);
-
-
-      fetch("https://api.sheetson.com/v2/sheets/bookmarker", {
-        method: "POST",
-        headers: {
-          Authorization:
-            `Bearer ${APIKEY}`,
-          "X-Spreadsheet-Id": "1q5PbYgCM4EUTxKq1RrUv-ftGNAFoDLmaiGKV6IJZacw",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bookmark),
-      })
-        .then((r) => r.json())
-        .then((result) => {
-          location.reload();
-        });
-    })
-    .catch((err) => {
-      console.log("error"); //url
+  fetch("https://api.sheetson.com/v2/sheets/bookmarker", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${APIKEY}`,
+      "X-Spreadsheet-Id": "1q5PbYgCM4EUTxKq1RrUv-ftGNAFoDLmaiGKV6IJZacw",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(bookmark),
+  })
+    .then((r) => r.json())
+    .then((result) => {
+      location.reload();
     });
-
- 
 });
