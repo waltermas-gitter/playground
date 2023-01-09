@@ -81,12 +81,12 @@ fetch(url, { "Cache-Control": "no-cache" })
 $botonSubmit = document.getElementById("boton-submit");
 $botonSubmit.addEventListener("click", () => {
   let headers = new Headers();
-  
+  headers.append("Access-Control-Allow-Credentials", true)
   headers.append("Access-Control-Allow-Origin", "*");
   headers.append("Access-Control-Allow-Headers" ,"*");
   headers.append("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT");
 
-  fetch("https://www.google.com/s2/favicons?domain=http://www.stackoverflow.com", {headers})
+  fetch("https://www.google.com/s2/favicons?domain=http://www.stackoverflow.com", {headers: headers})
     .then((res) => {
       const faviconurl = res.url;
       const nombre = document.getElementById("nombre").value;
