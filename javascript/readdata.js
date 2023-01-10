@@ -1,9 +1,16 @@
-let APIKEY = localStorage.getItem("apikey");
+/* let APIKEY = localStorage.getItem("apikey");
 if (!APIKEY) {
   APIKEY = prompt("ingresa la apikey");
   localStorage.setItem("apikey", APIKEY);
-}
+} 
+let APIKEY;
+fetch('file://home/waltermas/MEGAsync/scripts/apikey.txt')
+  .then(response => response.text())
+  .then(text => APIKEY = text)
+*/
+const APIKEY = atob("ZDJhdjVrcWRnaEo1MVQ4bFVfNkRvYUlhVHZRbzN6ZTlnbzc3RlNMLVdobVItUi1PbS1nMGVTcVo5ZFE=");
 
+  
 const params = {
   apiKey: APIKEY,
   spreadsheetId: "1q5PbYgCM4EUTxKq1RrUv-ftGNAFoDLmaiGKV6IJZacw",
@@ -75,8 +82,8 @@ fetch(url, { "Cache-Control": "no-cache" })
     });
   })
   .catch((err) => {
-    alert("api no valida");
-    localStorage.removeItem("apikey");
+    alert("error");
+    // localStorage.removeItem("apikey");
     console.log(err);
   });
 
@@ -119,7 +126,31 @@ document.addEventListener("click", (e) => {
   const botonid = e.target.id;
   const botonrow = botonid.substring(1);
   if (botonid.substring(0, 1) == "M") {
+    const urlm = new URL(
+      "https://api.sheetson.com/v2/sheets/bookmarker/" + botonrow
+    );
+    Object.keys(params).forEach((key) =>
+      urlm.searchParams.append(key, encodeURIComponent(params[key]))
+    );
+    fetch(urlm, { "Cache-Control": "no-cache" })
+      .then((r) => r.json())
+      .then((json) => {
+        console.log(json);
+        console.log(json.link);
+const $nombrem = document.getElementById("nombre");
+$nombrem.value = json.name;
+const $linkm = document.getElementById("link");
+$linkm.value = json.link;
+const $descm = document.getElementById("descripcion");
+$descm.value = json.desc;
+const $folderm = document.getElementById("folder");
+$folderm.value = json.folder;
+const $agregar = document.getElementById("agregar");
+$agregar.textContent = "Modificar";
+
+      });
   }
+
   if (botonid.substring(0, 1) == "D") {
     const resp = confirm("estas seguro?");
     console.log(resp);
