@@ -8,9 +8,11 @@ fetch('file://home/waltermas/MEGAsync/scripts/apikey.txt')
   .then(response => response.text())
   .then(text => APIKEY = text)
 */
-const APIKEY = atob("ZDJhdjVrcWRnaEo1MVQ4bFVfNkRvYUlhVHZRbzN6ZTlnbzc3RlNMLVdobVItUi1PbS1nMGVTcVo5ZFE=");
+const APIKEY = atob(
+  "ZDJhdjVrcWRnaEo1MVQ4bFVfNkRvYUlhVHZRbzN6ZTlnbzc3RlNMLVdobVItUi1PbS1nMGVTcVo5ZFE="
+);
+const $agregar = document.getElementById("agregar");
 
-  
 const params = {
   apiKey: APIKEY,
   spreadsheetId: "1q5PbYgCM4EUTxKq1RrUv-ftGNAFoDLmaiGKV6IJZacw",
@@ -105,20 +107,38 @@ $botonSubmit.addEventListener("click", () => {
     folder: folder,
     favicon: faviconurl,
   };
+  if ($agregar.textContent == "Agregar") {
+    fetch("https://api.sheetson.com/v2/sheets/bookmarker", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${APIKEY}`,
+        "X-Spreadsheet-Id": "1q5PbYgCM4EUTxKq1RrUv-ftGNAFoDLmaiGKV6IJZacw",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bookmark),
+    })
+      .then((r) => r.json())
+      .then((result) => {
+        location.reload();
+      });
+  }
+  if ($agregar.textContent == "Modificar") {
+row = $agregar.id;
+console.log(row);
 
-  fetch("https://api.sheetson.com/v2/sheets/bookmarker", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${APIKEY}`,
-      "X-Spreadsheet-Id": "1q5PbYgCM4EUTxKq1RrUv-ftGNAFoDLmaiGKV6IJZacw",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(bookmark),
-  })
-    .then((r) => r.json())
-    .then((result) => {
-      location.reload();
-    });
+fetch("https://api.sheetson.com/v2/sheets/bookmarker/"+ row, {
+  method: "PUT",
+  headers: {
+    "Authorization": `Bearer ${APIKEY}`,
+    "X-Spreadsheet-Id": "1q5PbYgCM4EUTxKq1RrUv-ftGNAFoDLmaiGKV6IJZacw",
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(bookmark)
+}).then(r => r.json())
+.then(result => console.log(result))
+.finally((e) => location.reload())
+
+  }
 });
 
 // modificar - delete
@@ -126,8 +146,9 @@ document.addEventListener("click", (e) => {
   const botonid = e.target.id;
   const botonrow = botonid.substring(1);
   if (botonid.substring(0, 1) == "M") {
+    const msu = Date.now();
     const urlm = new URL(
-      "https://api.sheetson.com/v2/sheets/bookmarker/" + botonrow
+      "https://api.sheetson.com/v2/sheets/bookmarker/" + botonrow + "?dummy=" + msu
     );
     Object.keys(params).forEach((key) =>
       urlm.searchParams.append(key, encodeURIComponent(params[key]))
@@ -137,18 +158,18 @@ document.addEventListener("click", (e) => {
       .then((json) => {
         console.log(json);
         console.log(json.link);
-const $nombrem = document.getElementById("nombre");
-$nombrem.value = json.name;
-const $linkm = document.getElementById("link");
-$linkm.value = json.link;
-const $descm = document.getElementById("descripcion");
-$descm.value = json.desc;
-const $folderm = document.getElementById("folder");
-$folderm.value = json.folder;
-const $agregar = document.getElementById("agregar");
-$agregar.textContent = "Modificar";
+        const $nombrem = document.getElementById("nombre");
+        $nombrem.value = json.name;
+        const $linkm = document.getElementById("link");
+        $linkm.value = json.link;
+        const $descm = document.getElementById("descripcion");
+        $descm.value = json.desc;
+        const $folderm = document.getElementById("folder");
+        $folderm.value = json.folder;
+        $agregar.textContent = "Modificar";
+        $agregar.id = botonrow;
+      })
 
-      });
   }
 
   if (botonid.substring(0, 1) == "D") {
