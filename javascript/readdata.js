@@ -124,8 +124,6 @@ $botonSubmit.addEventListener("click", () => {
   }
   if ($agregar.textContent == "Modificar") {
 row = $agregar.id;
-console.log(row);
-
 fetch("https://api.sheetson.com/v2/sheets/bookmarker/"+ row, {
   method: "PUT",
   headers: {
@@ -156,8 +154,6 @@ document.addEventListener("click", (e) => {
     fetch(urlm, { "Cache-Control": "no-cache" })
       .then((r) => r.json())
       .then((json) => {
-        console.log(json);
-        console.log(json.link);
         const $nombrem = document.getElementById("nombre");
         $nombrem.value = json.name;
         const $linkm = document.getElementById("link");
@@ -174,7 +170,6 @@ document.addEventListener("click", (e) => {
 
   if (botonid.substring(0, 1) == "D") {
     const resp = confirm("estas seguro?");
-    console.log(resp);
     if (!resp) return;
 
     fetch(`https://api.sheetson.com/v2/sheets/bookmarker/${botonrow}`, {
@@ -186,7 +181,6 @@ document.addEventListener("click", (e) => {
     })
       .then((r) => r.json())
       .then((result) => {
-        console.log(result);
       })
       .catch((err) => {
         console.log(err);
@@ -195,3 +189,4 @@ document.addEventListener("click", (e) => {
   }
   e.stopPropagation();
 });
+
