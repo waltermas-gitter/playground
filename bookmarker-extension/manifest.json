@@ -11,6 +11,9 @@
     "permissions": [
         "tabs"
     ],
+    "icons": {
+        "48": "bold.png"
+      },
     "browser_action": {
         "default_popup": "popup.html",
         "default_title": "Bookmarker"

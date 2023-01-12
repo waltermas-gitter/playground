@@ -70,7 +70,7 @@ fetch(url, { "Cache-Control": "no-cache" })
           $li.innerHTML = `      
       <div class="d-flex p-2 bd-highlight">
       <a class="dropdown-item" href="${el.link}">
-      <img src="${el.favicon}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+      <img src="${el.favicon}" alt="Logo" width="24" height="24" class="d-inline-block align-text-top">
       ${el.name}
         </a>
       <button id="M${el.rowIndex}" class="btn btn-sm btn-outline-secondary m-1" type="button">M</button>
