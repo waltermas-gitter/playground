@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+    "name": "flashbookmark",
+    "version": "1.0.0",
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["contentauto.js"]
+        }
+    ],
+    "permissions": [
+        "tabs"
+    ],
+    "icons": {
+        "48": "bolt.png"
+      },
+    "browser_action": {
+        "default_popup": "popup.html",
+        "default_title": "flashbookmark"
+    }
+    
+}

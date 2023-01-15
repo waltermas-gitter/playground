@@ -1,3 +1,4 @@
+
 const APIKEY = atob(
   "ZDJhdjVrcWRnaEo1MVQ4bFVfNkRvYUlhVHZRbzN6ZTlnbzc3RlNMLVdobVItUi1PbS1nMGVTcVo5ZFE="
 );
@@ -31,7 +32,9 @@ fetch(url, { "Cache-Control": "no-cache" })
   .then((r) => r.json())
   .then((json) => {
     const carpetas = new Set();
-    const $carpetas = document.getElementById("folder-dropdown"),
+    // const $carpetas = document.getElementById("folder-dropdown"),
+    const $carpetas = document.getElementById("row");
+    console.log($carpetas);
       $fragmentc = document.createDocumentFragment();
     //                <li><a class="dropdown-item" href="#">Action</a></li>
 
@@ -41,10 +44,13 @@ fetch(url, { "Cache-Control": "no-cache" })
     console.log(carpetas);
 
     carpetas.forEach((el) => {
-      const $licarpeta = document.createElement("li");
-      $licarpeta.className = "dropdown-item";
-      $licarpeta.textContent = el;
-      $fragmentc.appendChild($licarpeta);
+      // const $licarpeta = document.createElement("li");
+      // $licarpeta.className = "dropdown-item";
+      // $licarpeta.textContent = el;
+      // $fragmentc.appendChild($licarpeta);
+      const $pcarpeta = document.createElement("p");
+      $pcarpeta.textContent = el;
+      $fragmentc.appendChild($pcarpeta);
     });
     $carpetas.appendChild($fragmentc);
   });
@@ -77,3 +83,26 @@ $botonSubmit.addEventListener("click", () => {
       close();
     });
 });
+
+document.addEventListener("click", (e) => {
+  //   console.log("click en ", e.target);
+  //   console.log(window.event.ctrlKey);
+  //   console.log(window.event.altKey);
+  //   e.preventDefault();
+  // e.stopPropagation();
+  // if (e.target.matches(".h3")) {
+  //   alert("h3");
+  // }
+  if (e.target.id == "boldicon") {
+    if (window.event.ctrlKey) {
+      console.log("eliminar");
+      e.preventDefault();
+      e.stopPropagation();
+    } else {
+      close();
+    }
+  }
+});
+
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
