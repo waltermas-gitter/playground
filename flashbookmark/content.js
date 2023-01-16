@@ -20,13 +20,16 @@ fetch(url, { "Cache-Control": "no-cache" })
     const $containerCarpetas = document.getElementById("container-folders");
     console.log($containerCarpetas);
     $fragment = document.createDocumentFragment();
-
+    $select = document.getElementById("selectFolder");
     const carpetas = new Set();
     json.results.forEach((el) => {
       carpetas.add(el.folder);
     });
-    console.log(carpetas);
     carpetas.forEach((el) => {
+      // tambien lleno el select
+      const $opcionSelect = document.createElement("option");
+      $opcionSelect.textContent = el;
+      $select.appendChild($opcionSelect);
       const $carpeta = document.createElement("div");
       $carpeta.classList.add("row");
       $carpeta.classList.add("border");
@@ -48,6 +51,7 @@ fetch(url, { "Cache-Control": "no-cache" })
           $ima.setAttribute("width", 18);
           $ima.setAttribute("height", 18);
           $ima.classList.add("linkIcon");
+          $ima.setAttribute("wrow", elresults.rowIndex);
 
           $linkIcon.setAttribute("href", elresults.link);
           $linkIcon.setAttribute("target", "_blank");
@@ -81,15 +85,70 @@ fetch(url, { "Cache-Control": "no-cache" })
     );
   });
 
+document.addEventListener("click", (e) => {
+  if (e.target.className == "linkIcon") {
+    if (window.event.ctrlKey) {
+      // console.log("eliminar");
+      rowvalue = e.target.attributes.wrow.nodeValue;
+      fetch(`https://api.sheetson.com/v2/sheets/bookmarker/${rowvalue}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${APIKEY}`,
+          "X-Spreadsheet-Id": "1q5PbYgCM4EUTxKq1RrUv-ftGNAFoDLmaiGKV6IJZacw",
+        },
+      })
+        .then((r) => r.json())
+        .then((result) => {})
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally((e) => location.reload());
 
-  document.addEventListener("click", (e) => {
-    if (e.target.className == "linkIcon") {
-      if (window.event.ctrlKey) {
-        console.log("eliminar");
-        e.preventDefault();
-        e.stopPropagation();
-      } else {
-        close();
-      }
+      e.preventDefault();
+      e.stopPropagation();
+    } else {
+      close();
     }
-  });
+  }
+  // submit
+  if (e.target.id == "add") {
+    console.log("add");
+    const $nombre = document.getElementById("title");
+    const $folder = document.getElementById("selectFolder");
+    const $favicon = document.getElementById("imaNueva");
+    const bookmark = {
+      name: $nombre.value,
+      link: $favicon.getAttribute("wlink"),
+      desc: "",
+      folder: $folder.value,
+      favicon: $favicon.src,
+    };
+    fetch("https://api.sheetson.com/v2/sheets/bookmarker", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${APIKEY}`,
+        "X-Spreadsheet-Id": "1q5PbYgCM4EUTxKq1RrUv-ftGNAFoDLmaiGKV6IJZacw",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bookmark),
+    })
+      .then((r) => r.json())
+      .then((result) => {
+        //location.reload();
+        close();
+      });
+  }
+});
+
+const $title = document.getElementById("title");
+const $imaNueva = document.getElementById("imaNueva");
+$title.value = "holis";
+chrome.tabs.query({ active: true }, (tabs) => {
+  const tab = tabs[0];
+  // $nombre.value = tab.title;
+  // $link.value = tab.url;
+  // $imagenlink.src = tab.favIconUrl;
+  $title.value = tab.title;
+  $imaNueva.src = tab.favIconUrl;
+  $imaNueva.setAttribute("wlink", tab.url);
+});
