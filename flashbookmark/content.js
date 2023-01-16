@@ -1,6 +1,7 @@
 const APIKEY = atob(
   "ZDJhdjVrcWRnaEo1MVQ4bFVfNkRvYUlhVHZRbzN6ZTlnbzc3RlNMLVdobVItUi1PbS1nMGVTcVo5ZFE="
 );
+const $newfolder = document.getElementById("folderName");
 
 //folders
 const params = {
@@ -36,7 +37,7 @@ fetch(url, { "Cache-Control": "no-cache" })
       $carpeta.classList.add("rounded");
       $carpeta.classList.add("m-1");
 
-      const $carpetaParrafo = document.createElement("p");
+      const $carpetaParrafo = document.createElement("div");
       $carpetaParrafo.textContent = el;
       $carpeta.appendChild($carpetaParrafo);
 
@@ -115,12 +116,18 @@ document.addEventListener("click", (e) => {
     console.log("add");
     const $nombre = document.getElementById("title");
     const $folder = document.getElementById("selectFolder");
+    let foldervalue;
+    if ($folder.value == "New folder") {
+      foldervalue = $newfolder.value;
+    } else {
+      foldervalue =$folder.value;
+    }
     const $favicon = document.getElementById("imaNueva");
     const bookmark = {
       name: $nombre.value,
       link: $favicon.getAttribute("wlink"),
       desc: "",
-      folder: $folder.value,
+      folder: foldervalue,
       favicon: $favicon.src,
     };
     fetch("https://api.sheetson.com/v2/sheets/bookmarker", {
@@ -137,6 +144,15 @@ document.addEventListener("click", (e) => {
         //location.reload();
         close();
       });
+  }
+});
+
+// change folder
+document.getElementById("selectFolder").addEventListener("change", (e) => {
+  if (e.target.value == "New folder") {
+    $newfolder.style.display = "Inline";
+  } else {
+    $newfolder.style.display = "None";
   }
 });
 

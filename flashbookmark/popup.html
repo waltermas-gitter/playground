@@ -21,8 +21,8 @@
       <!-- lleno con javascript -->
     </div>
 
-    <div class="container">
-      <div class="row m-1 border rounded">
+    <div class="container p-1">
+      <div class="row m-1 border rounded bg-body-secondary">
         <div class="row m-1">
           <div class="col">
             <input
@@ -44,17 +44,20 @@
               aria-label="Default select example"
             >
               <option selected>Select folder</option>
-              <option value="1">New folder</option>
+              <option>New folder</option>
             </select>
           </div>
         </div>
         <div class="row m-1">
-          <div class="col-8"></div>
+          <div class="col-8">
+            <input type="text" id="folderName" class="form-control" placeholder="folder" style="display: none;">
+
+          </div>
           <div class="col-2">
             <button id="add" type="submit" class="btn btn-primary">Add</button>
           </div>
         </div>
-      </div>
+           </div>
     </div>
     <script src="bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="content.js"></script>
