@@ -3,3 +3,7 @@ haciendo un cambio en la nube
 https://s2.googleusercontent.com/s2/favicons?domain_url=https://www.stackoverflow.com
 http://www.stackoverflow.comhttps://s2.googleusercontent.com/s2/favicons?domain=
 http://www.google.com/s2/favicons?domain=<WEBSITE HERE>
+
+chess.com
+https://www.chess.com/news/view/published-data-api
+curl https://api.chess.com/pub/player/waltermas/stats best
