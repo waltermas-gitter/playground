@@ -45,7 +45,7 @@ fetch("https://lichess.org/api/user/jostago")
 
 // https://lichess.org/api/users/status?ids=elfugitivo&withGameIds=true
 
-fetch("https://lichess.org/api/user/dantoro55/current-game", {
+fetch("https://lichess.org/api/user/raulitochess/current-game", {
   headers: {
     // accept: "application/x-ndjson",
     accept: "application/json",
